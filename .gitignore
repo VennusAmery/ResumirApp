@@ -1,0 +1,38 @@
+# ==========================================
+# Archivos de entorno y seguridad (CRÍTICO)
+# ==========================================
+.env
+.env.local
+.env.*.local
+*.pem
+
+# ==========================================
+# Dependencias y paquetes
+# ==========================================
+node_modules/
+.pnpm-store/
+pnpm-debug.log*
+
+# ==========================================
+# Compilación y builds (Vite / React / Node)
+# ==========================================
+dist/
+dist-ssr/
+build/
+*.local
+
+# ==========================================
+# Logs y temporales
+# ==========================================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json

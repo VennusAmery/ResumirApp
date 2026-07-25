@@ -1,0 +1,6 @@
+pnpm install
+npm install @google/genai
+pnpm approve-builds esbuild core-js
+
+#ejecución del proyecto
+pnpm run dev
