@@ -22,9 +22,6 @@ app.post("/api/generate", async (req, res) => {
       return res.status(400).json({ error: "Falta el texto de la transcripción." });
     }
 
-    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    res.setHeader('Transfer-Encoding', 'chunked');
-
     const response = await ai.models.generateContent({
       model: "gemini-3.5-flash",
       config: {
@@ -33,12 +30,6 @@ app.post("/api/generate", async (req, res) => {
       },
       contents: [`Aquí está la transcripción de la clase:\n\n${transcript}`],
     });
-
-    for await (const chunk of responseStream) {
-      if (chunk.text) {
-        res.write(chunk.text);
-      }
-    }
 
     res.json({ markdown: response.text });
   } catch (err) {
