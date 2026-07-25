@@ -85,7 +85,7 @@ function expandTables(rawLines) {
         out.push(`##ROW## ${row[0] || ""}`);
         for (let c = 1; c < header.length; c += 1) {
           if (header[c] && row[c]) {
-            out.push(`  - ${header[c]}: ${row[c]}`);
+            out.push(`   - ${header[c]}: ${row[c]}`);
           }
         }
         out.push("");
@@ -295,31 +295,15 @@ export default function App() {
       return;
     }
 
-
-  const handleGenerate = async () => {
-    try {  const API_URL = import.meta.env.VITE_API_URL || "https://resumirapp.onrender.com";
-
-    const resp = await fetch(`${API_URL}/api/generate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ transcript }),
-      });
-
-      const data = await resp.json();
-      // Guarda o procesa 'data' aquí
-    } catch (error) {
-      console.error("Error al generar:", error);
-    }
-  };
-
-
     setStatus(STATES.LOADING);
     setError("");
     setFileName(file.name.replace(/\.txt$/i, ""));
 
     try {
       const transcript = await file.text();
-      const resp = await fetch("/api/generate", {
+      const API_URL = import.meta.env.VITE_API_URL || "[https://resumirapp.onrender.com](https://resumirapp.onrender.com)";
+
+      const resp = await fetch(`${API_URL}/api/generate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ transcript }),
@@ -353,14 +337,6 @@ export default function App() {
     setFileName("");
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
-
-const API_URL = import.meta.env.VITE_API_URL || "https://resumirapp.onrender.com";
-
-const resp = await fetch(`${API_URL}/api/generate`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ transcript }),
-});
 
   return (
     <div className="app">
