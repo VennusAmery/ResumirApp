@@ -295,6 +295,24 @@ export default function App() {
       return;
     }
 
+
+  const handleGenerate = async () => {
+    try {  const API_URL = import.meta.env.VITE_API_URL || "https://resumirapp.onrender.com";
+
+    const resp = await fetch(`${API_URL}/api/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ transcript }),
+      });
+
+      const data = await resp.json();
+      // Guarda o procesa 'data' aquí
+    } catch (error) {
+      console.error("Error al generar:", error);
+    }
+  };
+
+
     setStatus(STATES.LOADING);
     setError("");
     setFileName(file.name.replace(/\.txt$/i, ""));
