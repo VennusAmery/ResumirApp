@@ -40,8 +40,6 @@ function sanitizeForPdf(str) {
     (acc, [pattern, replacement]) => acc.replace(pattern, replacement),
     str
   );
-  // Cualquier símbolo/emoji fuera de Latin-1 (no soportado por las fuentes
-  // base de jsPDF) se elimina para evitar caracteres corruptos en el PDF.
   out = out.replace(/[^\x00-\xFF]/g, "");
   return out;
 }
@@ -63,8 +61,6 @@ function parseCells(line) {
     .map((c) => c.trim());
 }
 
-// Las tablas markdown anchas no caben legibles en una hoja carta como texto
-// plano; se convierten en tarjetas verticales (etiqueta + lista clave/valor).
 function expandTables(rawLines) {
   const out = [];
   let i = 0;
@@ -339,6 +335,14 @@ export default function App() {
     setFileName("");
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
+
+const API_URL = import.meta.env.VITE_API_URL || "https://resumirapp.onrender.com";
+
+const resp = await fetch(`${API_URL}/api/generate`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ transcript }),
+});
 
   return (
     <div className="app">

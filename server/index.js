@@ -8,6 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "20mb" }));
 
+app.use(cors({
+  origin: "*" 
+}));
+
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 app.post("/api/generate", async (req, res) => {
