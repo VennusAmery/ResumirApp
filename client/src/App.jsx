@@ -301,7 +301,7 @@ export default function App() {
 
     try {
       const transcript = await file.text();
-      const API_URL = import.meta.env.VITE_API_URL || "[https://resumirapp.onrender.com](https://resumirapp.onrender.com)";
+      const API_URL = "https://resumirapp.onrender.com";
 
       const resp = await fetch(`${API_URL}/api/generate`, {
         method: "POST",
