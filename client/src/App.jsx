@@ -287,65 +287,43 @@ export default function App() {
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
 
-const [progress, setProgress] = useState(0);
-const handleFile = async (file) => {
-  if (!file) return;
-  if (!file.name.toLowerCase().endsWith('.txt')) {
-    setError('Sube un archivo .txt');
-    setStatus(STATES.ERROR);
-    return;
-  }
-
-  setStatus(STATES.LOADING);
-  setError('');
-  setProgress(5); // Iniciar barra al 5%
-  setFileName(file.name.replace(/\.txt$/i, ''));
-
-  try {
-    const transcript = await file.text();
-
-    const API_URL = import.meta.env.VITE_API_URL || 'https://resumirapp.onrender.com';
-
-    const resp = await fetch(`${API_URL}/api/generate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ transcript }),
-    });
-
-    if (!resp.ok) {
-      const errData = await resp.json();
-      throw new Error(errData.error || 'Error del servidor');
+  const handleFile = async (file) => {
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".txt")) {
+      setError("Sube un archivo .txt");
+      setStatus(STATES.ERROR);
+      return;
     }
 
-    const reader = resp.body.getReader();
-    const decoder = new TextDecoder('utf-8');
-    let receivedText = '';
-    
-    const ESTIMATED_TOTAL_LENGTH = 4000; 
+    setStatus(STATES.LOADING);
+    setError("");
+    setFileName(file.name.replace(/\.txt$/i, ""));
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
+    try {
+      const transcript = await file.text();
+      const API_URL = "https://resumirapp.onrender.com";
 
-      const chunk = decoder.decode(value, { stream: true });
-      receivedText += chunk;
+      const resp = await fetch(`${API_URL}/api/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ transcript }),
+      });
 
-      const currentProgress = Math.min(
-        95,
-        Math.round(5 + (receivedText.length / ESTIMATED_TOTAL_LENGTH) * 90)
-      );
-      
-      setProgress(currentProgress);
-      setMarkdown(receivedText);
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error || "Error del servidor");
+
+      setMarkdown(data.markdown);
+      if (data.truncated) {
+        setError(
+          "Se generó, pero pudo cortarse por límite de tokens en clases muy largas."
+        );
+      }
+      setStatus(STATES.DONE);
+    } catch (err) {
+      setError(err.message || "Algo falló procesando la clase.");
+      setStatus(STATES.ERROR);
     }
-
-    setProgress(100);
-    setStatus(STATES.DONE);
-  } catch (err) {
-    setError(err.message || 'Algo falló procesando la clase.');
-    setStatus(STATES.ERROR);
-  }
-};
+  };
 
   const onDrop = (e) => {
     e.preventDefault();
@@ -397,20 +375,13 @@ const handleFile = async (file) => {
             )}
 
             {status === STATES.LOADING && (
-              <div className="progress-container">
+              <>
                 <div className="stamp-spin">◆</div>
                 <p className="dropzone__title">Procesando la transcripción…</p>
                 <p className="dropzone__hint">
-                  Generando expediente de {fileName}.txt ({progress}%)
+                  Extrayendo temas, artículos y anotaciones de {fileName}.txt
                 </p>
-
-                <div className="progress-bar-bg">
-                  <div 
-                    className="progress-bar-fill" 
-                    style={{ width: `${progress}%` }} 
-                  />
-                </div>
-              </div>
+              </>
             )}
 
             {status === STATES.ERROR && (
