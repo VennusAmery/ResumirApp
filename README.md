@@ -22,7 +22,7 @@
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 ### **Frontend**
 * **React 18** (Vite)
@@ -45,6 +45,6 @@
 
 ### 1. Clonar el repositorio
 ```bash
-git clone [https://github.com/VennusAmery/ResumirApp.git](https://github.com/VennusAmery/ResumirApp.git)
+git clone https://github.com/VennusAmery/ResumirApp.git
 
 cd ResumirApp
