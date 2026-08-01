@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://resumir-app-me8r.vercel.app/sitemap.xml

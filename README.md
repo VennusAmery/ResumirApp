@@ -2,6 +2,8 @@
 
 > Convierte transcripciones de clases extensas en guías de estudio formateadas y listas para exportar a PDF en segundos.
 
+🔗 **Link funcional:** https://resumir-app-me8r.vercel.app/ 
+
 ![Status](https://img.shields.io/badge/Status-Publicado-success?style=for-the-badge)
 ![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)
 ![NodeJS](https://img.shields.io/badge/Node.js-Express-green?style=for-the-badge&logo=nodedotjs)
@@ -40,7 +42,7 @@
 
 ### Prerrequisitos
 * Node.js (v18 o superior)
-* Administrador de paquetes `pnpm` (o `npm`)
+* Administrador de paquetes `pnpm` 
 * Una API Key de **[Google AI Studio](https://aistudio.google.com/)**
 
 ### 1. Clonar el repositorio
