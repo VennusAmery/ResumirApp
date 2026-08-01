@@ -50,3 +50,7 @@
 git clone https://github.com/VennusAmery/ResumirApp.git
 
 cd ResumirApp
+
+cd server / node index.js
+cd client / pnpm run dev
+
